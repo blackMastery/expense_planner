@@ -3,14 +3,17 @@ import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
 class TransactionList extends StatelessWidget {
-  List<Transaction> userTransactions;
+  final Function deleteTx;
 
-  TransactionList({this.userTransactions});
+  List<Transaction> userTransactions;
+  TransactionList({this.userTransactions, this.deleteTx});
+
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 450,
+        // height: 750,
         child: userTransactions.isEmpty
             ? Column(
                 children: [
@@ -21,6 +24,7 @@ class TransactionList extends StatelessWidget {
                 ],
               )
             : ListView.builder(
+
                 itemBuilder: (ctx, idx) {
                   return Card(
                     elevation: 5,
@@ -37,10 +41,11 @@ class TransactionList extends StatelessWidget {
                           subtitle: Text(
                             DateFormat.yMMMd().format(userTransactions[idx].date)
                           ),
-                          trailing: IconButton( icon: Icon(Icons.delete),
-                          color: Theme.of(context).errorColor
+                          trailing: IconButton(icon:Icon(Icons.delete),
+                              onPressed: () => deleteTx(userTransactions[idx].id),
+                            color: Theme.of(context).errorColor
                           ),
-                                ),
+                    ),
                   );
                 },
                 itemCount: userTransactions.length,

@@ -20,10 +20,16 @@ class _UserTransactionState extends State<UserTransaction> {
   }
 
   void _addNewTransaction(String title, double amount, DateTime chosenDate) {
-    final newTx = Transaction(title: title, amount: amount, date: chosenDate);
+    final newTx = Transaction(id: 'kc-$amount', title: title, amount: amount, date: chosenDate);
 
     setState(() {
       userTransactions.add(newTx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      userTransactions.removeWhere((tx) => tx.id == id);
     });
   }
 
@@ -32,7 +38,7 @@ class _UserTransactionState extends State<UserTransaction> {
     return Column(
       children: [
         NewTransaction(_addNewTransaction),
-        TransactionList(userTransactions: userTransactions),
+        TransactionList(userTransactions: userTransactions, deleteTx: _deleteTransaction,),
       ],
     );
   }
